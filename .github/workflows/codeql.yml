@@ -98,3 +98,31 @@ jobs:
       uses: github/codeql-action/analyze@v4
       with:
         category: "/language:${{matrix.language}}"
+        
+        output: sarif-results
+        upload: failure-only
+
+    # based on tests/misra/suppressions.txt
+
+    # misra-c2012-11.4
+    # misra-c2012-11.5
+    # misra-c2012-15.1
+    # misra-c2012-19.2
+    # misra-c2012-20.10
+    - name: filter-sarif
+      uses: advanced-security/filter-sarif@v1.1
+      with:
+        patterns: |
+          -**:c/misra/unused-macro-declaration
+          -**:c/misra/conversion-between-pointer-to-object-and-integer-type
+          -**:c/misra/conversion-from-pointer-to-void-into-pointer-to-object
+          -**:c/misra/goto-statement-used
+          -**:c/misra/union-keyword-should-not-be-used
+          -**:c/misra/preprocessor-hash-operators-should-not-be-used    
+        input: sarif-results/cpp.sarif
+        output: filtered.sarif
+
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: filtered.sarif
