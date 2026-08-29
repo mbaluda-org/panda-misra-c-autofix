@@ -58,6 +58,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Setup Python@3.13
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11' 
+    - name: Install Packages
+      run: |
+        pip install -r .github/scripts/requirements.txt
+        
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v4
@@ -86,6 +94,7 @@ jobs:
       run: |
         source ./setup.sh
         scons
+        python3 .github/scripts/process_coding_standards_config.py
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
