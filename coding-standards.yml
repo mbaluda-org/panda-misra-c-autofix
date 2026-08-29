@@ -1,4 +1,6 @@
 deviations:
+- rule-id: RULE-2-5
+  justification: "based on tests/misra/suppressions.txt"
 - rule-id: RULE-11-4
   justification: "based on tests/misra/suppressions.txt"
 - rule-id: RULE-11-5
