@@ -1,1 +1,1 @@
-.github/scripts/requirements.txt
+pyyaml==6.0.2
